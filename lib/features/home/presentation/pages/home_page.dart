@@ -4,6 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/routes/app_router.dart';
 import '../../../../core/widgets/app_drawer.dart';
+import '../../../../core/widgets/enhanced_card.dart';
+import '../../../../core/widgets/enhanced_button.dart';
+import '../../../../core/widgets/stats_card.dart';
+import '../../../../core/widgets/enhanced_search_bar.dart';
+import '../../../../core/widgets/section_header.dart';
 import '../../../auth/bloc/auth_bloc.dart';
 import '../widgets/influencer_card.dart';
 import '../widgets/search_bar_widget.dart';
@@ -112,133 +117,228 @@ class _HomePageState extends State<HomePage> {
   Widget _buildHomeTab() {
     return CustomScrollView(
       slivers: [
+        // Enhanced Hero Header with Gradient
         SliverAppBar(
-          expandedHeight: 120,
+          expandedHeight: 140,
           floating: true,
           pinned: true,
-          backgroundColor: Theme.of(context).colorScheme.surface,
+          backgroundColor: Colors.transparent,
           elevation: 0,
           flexibleSpace: FlexibleSpaceBar(
             title: Text(
               'Viral Together',
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.bold,
+              style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
               ),
             ),
             background: Container(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    AppTheme.primaryColor.withOpacity(0.1),
-                    AppTheme.secondaryColor.withOpacity(0.1),
-                  ],
+              decoration: const BoxDecoration(
+                gradient: AppTheme.primaryGradient,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.black.withOpacity(0.0),
+                      Colors.black.withOpacity(0.3),
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
           actions: [
-            IconButton(
-              icon: const Icon(Icons.notifications_outlined),
-              onPressed: () {
-                // TODO: Navigate to notifications
-              },
+            Container(
+              margin: const EdgeInsets.only(right: AppTheme.spacing12),
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.2),
+                borderRadius: BorderRadius.circular(AppTheme.radiusFull),
+              ),
+              child: IconButton(
+                icon: const Icon(
+                  Icons.notifications_outlined,
+                  color: Colors.white,
+                ),
+                onPressed: () {
+                  // TODO: Navigate to notifications
+                },
+              ),
             ),
           ],
         ),
+        
         SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Search Bar
-                SearchBarWidget(
+          child: Column(
+            children: [
+              // Enhanced Search Section
+              Container(
+                margin: const EdgeInsets.all(AppTheme.spacing24),
+                child: HeroSearchBar(
+                  hintText: 'Search influencers, categories, locations...',
+                  readOnly: true,
                   onTap: () {
                     Navigator.of(context).pushNamed(AppRouter.influencerSearch);
                   },
+                  suffixActions: [
+                    Container(
+                      padding: const EdgeInsets.all(AppTheme.spacing8),
+                      decoration: BoxDecoration(
+                        color: AppTheme.primaryColor,
+                        borderRadius: BorderRadius.circular(AppTheme.radiusSM),
+                      ),
+                      child: const Icon(
+                        Icons.tune,
+                        size: 18,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
                 ),
-                
-                const SizedBox(height: 24),
-                
-                // Quick Actions
-                Text(
-                  'Quick Actions',
-                  style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.w600,
+              ),
+
+              // Platform Stats Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacing24),
+                child: Column(
+                  children: [
+                    SectionHeader(
+                      title: 'Platform Insights',
+                      subtitle: 'Real-time influencer marketing statistics',
+                      padding: EdgeInsets.zero,
+                    ),
+                    const SizedBox(height: AppTheme.spacing16),
+                    
+                    // Stats Grid
+                    Row(
+                      children: [
+                        Expanded(
+                          child: StatsCard(
+                            title: 'Active Influencers',
+                            value: '12.4K',
+                            icon: Icons.star,
+                            iconColor: AppTheme.accentOrange,
+                            percentage: 12.5,
+                            isIncreasing: true,
+                            onTap: () => Navigator.of(context).pushNamed(AppRouter.influencerSearch),
+                          ),
+                        ),
+                        const SizedBox(width: AppTheme.spacing12),
+                        Expanded(
+                          child: StatsCard(
+                            title: 'Total Reach',
+                            value: '2.8M',
+                            icon: Icons.people,
+                            iconColor: AppTheme.secondaryColor,
+                            percentage: 8.3,
+                            isIncreasing: true,
+                          ),
+                        ),
+                      ],
+                    ),
+                    
+                    const SizedBox(height: AppTheme.spacing12),
+                    
+                    GradientStatsCard(
+                      title: 'Average Engagement Rate',
+                      value: '4.7%',
+                      subtitle: 'Industry leading performance',
+                      icon: Icons.trending_up,
+                      percentage: 15.2,
+                      isIncreasing: true,
+                      gradient: AppTheme.secondaryGradient,
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: AppTheme.spacing32),
+
+              // Quick Actions Section
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacing24),
+                child: Column(
+                  children: [
+                    SectionHeader(
+                      title: 'Quick Actions',
+                      subtitle: 'Jump into what you need most',
+                      padding: EdgeInsets.zero,
+                    ),
+                    const SizedBox(height: AppTheme.spacing16),
+                    
+                    // Enhanced Quick Action Cards
+                    GridView.count(
+                      crossAxisCount: 2,
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisSpacing: AppTheme.spacing16,
+                      mainAxisSpacing: AppTheme.spacing16,
+                      childAspectRatio: 1.3,
+                      children: [
+                        _buildEnhancedQuickActionCard(
+                          icon: Icons.location_on,
+                          title: 'Find Nearby',
+                          subtitle: 'Local influencers',
+                          color: AppTheme.accentTeal,
+                          onTap: () => Navigator.of(context).pushNamed(AppRouter.locationSearch),
+                        ),
+                        _buildEnhancedQuickActionCard(
+                          icon: Icons.trending_up,
+                          title: 'Trending Now',
+                          subtitle: 'Hot influencers',
+                          color: AppTheme.accentPink,
+                          onTap: () => Navigator.of(context).pushNamed(AppRouter.influencerSearch),
+                        ),
+                        _buildEnhancedQuickActionCard(
+                          icon: Icons.analytics,
+                          title: 'Analytics',
+                          subtitle: 'View insights',
+                          color: AppTheme.accentOrange,
+                          onTap: () => Navigator.of(context).pushNamed(AppRouter.dashboard),
+                        ),
+                        _buildEnhancedQuickActionCard(
+                          icon: Icons.people_alt,
+                          title: 'Community',
+                          subtitle: 'Connect & chat',
+                          color: AppTheme.primaryAccent,
+                          onTap: () => Navigator.of(context).pushNamed(AppRouter.people),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: AppTheme.spacing32),
+
+              // Featured Influencers Section
+              Column(
+                children: [
+                  SectionHeader(
+                    title: 'Featured Influencers',
+                    subtitle: 'Top performers this week',
+                    actionText: 'View All',
+                    actionIcon: Icons.arrow_forward_ios,
+                    onActionPressed: () {
+                      Navigator.of(context).pushNamed(AppRouter.influencerSearch);
+                    },
                   ),
-                ),
-                const SizedBox(height: 16),
-                
-                Row(
-                  children: [
-                    Expanded(
-                      child: _buildQuickActionCard(
-                        icon: Icons.location_on,
-                        title: 'Nearby',
-                        subtitle: 'Find influencers near you',
-                        onTap: () {
-                          Navigator.of(context).pushNamed(AppRouter.locationSearch);
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: _buildQuickActionCard(
-                        icon: Icons.trending_up,
-                        title: 'Trending',
-                        subtitle: 'Popular influencers',
-                        onTap: () {
-                          Navigator.of(context).pushNamed(AppRouter.influencerSearch);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-                
-                const SizedBox(height: 32),
-                
-                // Featured Influencers
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      'Featured Influencers',
-                      style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(AppRouter.influencerSearch);
-                      },
-                      child: Text(
-                        'View All',
-                        style: TextStyle(
-                          color: AppTheme.primaryColor,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                
-                const SizedBox(height: 16),
-                
-                // Featured Influencers List
-                SizedBox(
-                  height: 280,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    itemCount: 3,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          right: index < 2 ? 16 : 0,
-                        ),
-                        child: SizedBox(
-                          width: 200,
+                  
+                  // Featured Influencers List
+                  SizedBox(
+                    height: 300,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacing24),
+                      itemCount: 3,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          width: 220,
+                          margin: EdgeInsets.only(
+                            right: index < 2 ? AppTheme.spacing16 : 0,
+                          ),
                           child: InfluencerCard(
                             influencer: _getMockInfluencer(index),
                             onTap: () {
@@ -248,11 +348,12 @@ class _HomePageState extends State<HomePage> {
                               );
                             },
                           ),
-                        ),
-                      );
-                    },
+                        );
+                      },
+                    ),
                   ),
-                ),
+                ],
+              ),
               ],
             ),
           ),
@@ -413,6 +514,74 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _buildEnhancedQuickActionCard({
+    required IconData icon,
+    required String title,
+    required String subtitle,
+    required Color color,
+    required VoidCallback onTap,
+  }) {
+    return EnhancedCard(
+      variant: CardVariant.outlined,
+      onTap: onTap,
+      showShadow: false,
+      padding: const EdgeInsets.all(AppTheme.spacing20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [
+                  color,
+                  color.withOpacity(0.7),
+                ],
+              ),
+              borderRadius: BorderRadius.circular(AppTheme.radiusMD),
+              boxShadow: [
+                BoxShadow(
+                  color: color.withOpacity(0.3),
+                  offset: const Offset(0, 4),
+                  blurRadius: 8,
+                  spreadRadius: 0,
+                ),
+              ],
+            ),
+            child: Icon(
+              icon,
+              color: Colors.white,
+              size: 24,
+            ),
+          ),
+          const Spacer(),
+          Text(
+            title,
+            style: Theme.of(context).textTheme.titleMedium?.copyWith(
+              fontWeight: FontWeight.w600,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+          const SizedBox(height: AppTheme.spacing4),
+          Text(
+            subtitle,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Theme.of(context).brightness == Brightness.dark
+                  ? AppTheme.darkTextSecondary
+                  : AppTheme.textSecondary,
+            ),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }

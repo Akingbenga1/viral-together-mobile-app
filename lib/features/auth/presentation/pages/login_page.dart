@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/routes/app_router.dart';
+import '../../../../core/widgets/enhanced_button.dart';
 import '../widgets/auth_text_field.dart';
 import '../widgets/auth_button.dart';
 import '../../bloc/auth_bloc.dart';
@@ -68,16 +69,24 @@ class _LoginPageState extends State<LoginPage> {
                   Column(
                     children: [
                       Container(
-                        width: 80,
-                        height: 80,
+                        width: 100,
+                        height: 100,
                         decoration: BoxDecoration(
-                          color: AppTheme.primaryColor,
-                          borderRadius: BorderRadius.circular(20),
+                          gradient: AppTheme.primaryGradient,
+                          borderRadius: BorderRadius.circular(AppTheme.radius2XL),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppTheme.primaryColor.withOpacity(0.3),
+                              offset: const Offset(0, 8),
+                              blurRadius: 20,
+                              spreadRadius: 0,
+                            ),
+                          ],
                         ),
                         child: const Icon(
-                          Icons.person_search,
+                          Icons.flash_on_rounded,
                           color: Colors.white,
-                          size: 40,
+                          size: 48,
                         ),
                       ),
                       const SizedBox(height: 24),
@@ -147,10 +156,13 @@ class _LoginPageState extends State<LoginPage> {
                   // Login Button
                   BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
-                      return AuthButton(
+                      return EnhancedButton(
                         text: 'Sign In',
                         onPressed: state is AuthLoading ? null : _handleLogin,
                         isLoading: state is AuthLoading,
+                        variant: ButtonVariant.gradient,
+                        size: ButtonSize.large,
+                        isFullWidth: true,
                       );
                     },
                   ),
@@ -183,22 +195,14 @@ class _LoginPageState extends State<LoginPage> {
                   const SizedBox(height: 32),
                   
                   // Guest Access
-                  OutlinedButton(
+                  EnhancedButton(
+                    text: 'Continue as Guest',
                     onPressed: () {
                       Navigator.of(context).pushReplacementNamed(AppRouter.home);
                     },
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: AppTheme.borderColor),
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: Text(
-                        'Continue as Guest',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: AppTheme.textSecondary,
-                        ),
-                      ),
-                    ),
+                    variant: ButtonVariant.outline,
+                    size: ButtonSize.large,
+                    isFullWidth: true,
                   ),
                 ],
               ),
