@@ -141,32 +141,36 @@ class DashboardPage extends StatelessWidget {
                   mainAxisSpacing: 16,
                   childAspectRatio: 1.2,
                   children: [
-                    _buildActionCard(
-                      context: context,
+                    _buildEnhancedActionCard(
+                      context,
+                      icon: Icons.search,
                       title: 'Find Influencers',
                       subtitle: 'Discover new creators',
-                      icon: Icons.search,
+                      color: AppTheme.primaryColor,
                       onTap: () => Navigator.of(context).pushNamed('/influencer-search'),
                     ),
-                    _buildActionCard(
-                      context: context,
+                    _buildEnhancedActionCard(
+                      context,
+                      icon: Icons.add_circle,
                       title: 'Create Campaign',
                       subtitle: 'Start a new campaign',
-                      icon: Icons.add_circle,
+                      color: AppTheme.accentOrange,
                       onTap: () {},
                     ),
-                    _buildActionCard(
-                      context: context,
+                    _buildEnhancedActionCard(
+                      context,
+                      icon: Icons.analytics,
                       title: 'View Analytics',
                       subtitle: 'Check performance',
-                      icon: Icons.analytics,
+                      color: AppTheme.accentPink,
                       onTap: () => Navigator.of(context).pushNamed('/dashboard-analytics'),
                     ),
-                    _buildActionCard(
-                      context: context,
+                    _buildEnhancedActionCard(
+                      context,
+                      icon: Icons.account_balance_wallet,
                       title: 'Manage Budget',
                       subtitle: 'Track spending',
-                      icon: Icons.account_balance_wallet,
+                      color: AppTheme.secondaryColor,
                       onTap: () {},
                     ),
                   ],
@@ -205,40 +209,41 @@ class DashboardPage extends StatelessWidget {
                       ),
                       const SizedBox(height: 16),
 
-                      _buildActivityItem(
-                        context: context,
+                      _buildEnhancedActivityItem(
+                        context,
                         icon: Icons.person_add,
+                        iconColor: AppTheme.secondaryColor,
                         title: 'New influencer match',
                         subtitle: 'Sarah Johnson accepted your collaboration request',
                         time: '2 hours ago',
-                        color: Colors.green,
+                        showDot: true,
                       ),
 
-                      _buildActivityItem(
-                        context: context,
+                      _buildEnhancedActivityItem(
+                        context,
                         icon: Icons.campaign,
+                        iconColor: AppTheme.accentOrange,
                         title: 'Campaign milestone reached',
                         subtitle: 'Summer Collection campaign hit 1M impressions',
                         time: '1 day ago',
-                        color: Colors.blue,
                       ),
 
-                      _buildActivityItem(
-                        context: context,
+                      _buildEnhancedActivityItem(
+                        context,
                         icon: Icons.star,
+                        iconColor: AppTheme.primaryAccent,
                         title: 'Content delivered',
                         subtitle: 'Mike Chen submitted final content for review',
                         time: '2 days ago',
-                        color: Colors.purple,
                       ),
 
-                      _buildActivityItem(
-                        context: context,
+                      _buildEnhancedActivityItem(
+                        context,
                         icon: Icons.payment,
+                        iconColor: AppTheme.accentTeal,
                         title: 'Payment processed',
                         subtitle: 'Payment sent to Emma Wilson for sponsored post',
                         time: '3 days ago',
-                        color: Colors.orange,
                       ),
                     ],
                   ),
@@ -414,7 +419,8 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildEnhancedActionCard({
+  Widget _buildEnhancedActionCard(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
@@ -482,7 +488,8 @@ class DashboardPage extends StatelessWidget {
     );
   }
 
-  Widget _buildEnhancedActivityItem({
+  Widget _buildEnhancedActivityItem(
+    BuildContext context, {
     required IconData icon,
     required Color iconColor,
     required String title,
