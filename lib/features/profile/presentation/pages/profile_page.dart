@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/routes/app_router.dart';
+import '../../../../core/widgets/app_drawer.dart';
 import '../../../auth/bloc/auth_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -12,6 +13,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Profile'),
         elevation: 0,
