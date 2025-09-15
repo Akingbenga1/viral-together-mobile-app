@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_theme.dart';
+import '../../../../core/widgets/app_drawer.dart';
 import '../../../auth/bloc/auth_bloc.dart';
 
 class DashboardPage extends StatelessWidget {
@@ -11,6 +12,7 @@ class DashboardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Dashboard'),
         backgroundColor: Colors.transparent,

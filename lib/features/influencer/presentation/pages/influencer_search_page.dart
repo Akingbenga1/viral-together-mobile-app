@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/app_theme.dart';
 import '../../../../core/routes/app_router.dart';
+import '../../../../core/widgets/app_drawer.dart';
 import '../../bloc/influencer_bloc.dart';
 import '../widgets/influencer_card.dart';
 import '../../domain/entities/influencer.dart';
@@ -68,6 +69,7 @@ class _InfluencerSearchPageState extends State<InfluencerSearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text('Search Influencers'),
         elevation: 0,
