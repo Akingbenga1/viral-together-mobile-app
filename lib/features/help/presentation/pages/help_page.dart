@@ -205,8 +205,8 @@ class _HelpPageState extends State<HelpPage> {
             else
               ...filteredFAQs.map((faq) => _buildFAQCard(
                 context: context,
-                question: faq['question'],
-                answer: faq['answer'],
+                question: faq['question'] ?? '',
+                answer: faq['answer'] ?? '',
               )).toList(),
 
             const SizedBox(height: 32),
