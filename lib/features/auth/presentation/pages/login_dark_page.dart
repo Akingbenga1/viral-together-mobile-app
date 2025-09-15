@@ -374,7 +374,7 @@ class _LoginDarkPageState extends State<LoginDarkPage> {
     if (_formKey.currentState!.validate()) {
       context.read<AuthBloc>().add(
         AuthLoginRequested(
-          email: _emailController.text.trim(),
+          username: _emailController.text.trim(),
           password: _passwordController.text,
         ),
       );
